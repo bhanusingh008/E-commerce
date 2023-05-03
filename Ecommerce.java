@@ -16,6 +16,8 @@ public class Ecommerce extends Application {
         Scene scene = new Scene(userInterface.createContent());
         stage.setTitle("Ecommerce");
         stage.setScene(scene);
+        Image icon = new Image("ecom.png");
+        stage.getIcons().add(icon);
         stage.show();
     }
 
