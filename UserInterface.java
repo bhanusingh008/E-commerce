@@ -155,7 +155,20 @@ public class UserInterface {
 
         signOutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {
+             public void handle(ActionEvent actionEvent) {
+                // creating an alert for sign out.
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Sign Out?");
+                alert.setHeaderText("You're about to sign out");
+                alert.setContentText("Do you want to continue?");
+                // that is done
+                // adding icon to the dialog
+                Image img = new Image("ecom.png");
+                Stage alertWin = (Stage) alert.getDialogPane().getScene().getWindow();
+                alertWin.getIcons().add(img);
+                // that is done
+                // If user choose OK
+                if(alert.showAndWait().get() == ButtonType.OK){
                 body.getChildren().clear();
                 loggedInCustomer = null;
                 body.getChildren().add(loginPage);
@@ -163,6 +176,7 @@ public class UserInterface {
                 footBar.setVisible(false);
                 cus.setVisible(false);
                 Home.setVisible(true);
+                }
             }
         });
 
