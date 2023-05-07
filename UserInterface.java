@@ -18,6 +18,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -26,6 +28,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.Callable;
 
 public class UserInterface {
     public UserInterface() { // make sure to create constructor, and run needed methods within it.
@@ -51,8 +54,16 @@ public class UserInterface {
     VBox productPage;
 
     Label cus;
+
+    Label curr_position = new Label("You're on Login Page");
     public BorderPane createContent(){
         BorderPane root = new BorderPane();
+        Image img = new Image("C:\\Users\\Bhanu\\IdeaProjects\\E-commerce\\src\\main\\resources\\background.jpg");
+        ImageView imageView = new ImageView(img);
+        imageView.setFitWidth(2000);
+        imageView.setFitHeight(1000);
+        root.getChildren().add(imageView);
+        //root.setStyle("-fx-border-color:black");
         root.setPrefSize(600, 600);
         //root.getChildren().add(loginPage); // method to add the child node to parent
         root.setCenter(loginPage);
@@ -70,28 +81,39 @@ public class UserInterface {
     }
     private void createLoginPage() {
         Text userNameText = new Text("User Name");
+        userNameText.setFill(Color.WHITE);
         Text passwordText = new Text("Password");
+        passwordText.setFill(Color.WHITE);
 
         TextField userName = new TextField();
-        userName.setText("bhxnusingh0605@gmail.com");
+        userName.setText("abhaysingh@gmail.com");
         PasswordField password = new PasswordField();
-        password.setText("passkey");
+        password.setText("abhaysingh");
 
         loginPage = new GridPane();
         loginPage.setHgap(10);
         loginPage.setVgap(10);
         loginPage.setAlignment(Pos.CENTER);
 
-        loginPage.add(userNameText, 0, 0);
-        loginPage.add(userName, 1,0);
-        loginPage.add(passwordText, 0, 1);
-        loginPage.add(password, 1,1);
+        loginPage.add(userNameText, 0, 1);
+        loginPage.add(userName, 1,1);
+        loginPage.add(passwordText, 0, 2);
+        loginPage.add(password, 1,2);
+
+        ImageView img = new ImageView("C:\\Users\\Bhanu\\IdeaProjects\\E-commerce\\src\\main\\resources\\profile.png");
+        img.setFitHeight(50);
+        img.setFitWidth(50);
+        img.setTranslateX(175);
+        img.setTranslateY(-50);
+
+        loginPage.addRow(0,img);
 
         Label messageLabel = new Label("Welcome to YourStore, Login to buy, Or feel free to browse!");
+        messageLabel.setTextFill(Color.WHITE);
         loginPage.add(messageLabel, 1,5);
 
         Button login_button = new Button("Login");
-        loginPage.add(login_button, 1,2);
+        loginPage.add(login_button, 1,3);
 
 
         login_button.setOnAction(new EventHandler<ActionEvent>() {
@@ -110,13 +132,22 @@ public class UserInterface {
                     body.getChildren().add(productPage);
                     if(!headBar.getChildren().contains(cus)){
                         cus = new Label("Welcome-"+loggedInCustomer.getName());
+                        cus.setTextFill(Color.WHITE);
+                        cus.setMinWidth(70);
                         cus.setPadding(new Insets(10));
-                        headBar.getChildren().add(cus);
+                        curr_position.setText("You're on Home Page");
+                        curr_position.setTextFill(Color.WHITE);
+                        curr_position.setMinWidth(100);
+                        curr_position.setPadding(new Insets(10));
+                        curr_position.setStyle("-fx-border-color: white;");
+                        headBar.getChildren().addAll(cus, curr_position);
                     }
                     headBar.setVisible(true);
                     footBar.setVisible(true);
                     signOutButton.setVisible(true);
                     Home.setVisible(false);
+
+                    curr_position.setText("You're on Home Page");
                 }
             }
         });
@@ -125,8 +156,8 @@ public class UserInterface {
         headBar = new HBox();
         TextField searchBar = new TextField();
         searchBar.setPromptText("Search");
-        searchBar.setMaxWidth(40);
-        searchBar.setMinWidth(20);
+        searchBar.setLayoutX(20);
+        searchBar.setLayoutY(30);
 
         signInButton = new Button("Sign In");
         signOutButton = new Button("Sign Out");
@@ -134,6 +165,8 @@ public class UserInterface {
 
         Button searchButton = new Button("Search");
         Button CartButton = new Button("Cart");
+        CartButton.setMinWidth(50);
+        searchButton.setMinWidth(70);
 
         headBar.setPadding(new Insets(10));
         headBar.setSpacing(10);
@@ -150,12 +183,17 @@ public class UserInterface {
                 signInButton.setVisible(false);
                 footBar.setVisible(false);
                 Home.setVisible(true);
+
+                curr_position.setText("You're on Login Page");
             }
+
         });
+
+        signOutButton.setMinWidth(70);
 
         signOutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-             public void handle(ActionEvent actionEvent) {
+            public void handle(ActionEvent actionEvent) {
                 // creating an alert for sign out.
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Sign Out?");
@@ -177,6 +215,8 @@ public class UserInterface {
                 cus.setVisible(false);
                 Home.setVisible(true);
                 }
+
+                curr_position.setText("You're on Login Page");
             }
         });
 
@@ -195,6 +235,7 @@ public class UserInterface {
                 Home.setVisible(true);
                 footBar.setVisible(false);
                 CartButton.setVisible(false);
+                curr_position.setText("You're on Cart Page");
 
             }
         });
@@ -232,6 +273,8 @@ public class UserInterface {
                 if(loggedInCustomer == null){
                     signInButton.setVisible(true);
                 }
+
+                curr_position.setText("You're on Home Page");
             }
         });
     }
